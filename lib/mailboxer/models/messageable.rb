@@ -111,7 +111,7 @@ module Mailboxer
         #move conversation to inbox if it is currently in the trash and should_untrash parameter is true.
         if should_untrash && mailbox.is_trashed?(conversation)
           mailbox.receipts_for(conversation).untrash
-          mailbox.receipts_for(conversation).mark_as_not_deleted
+          mailbox.receipts_for(conversation).mark_as_current
         end
 
         reply(conversation, conversation.last_message.recipients, reply_body, subject, sanitize_text, attachment)

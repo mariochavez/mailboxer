@@ -26,7 +26,7 @@ class Mailboxer::Receipt < ActiveRecord::Base
   scope :trash, lambda { where(:trashed => true, :deleted => false) }
   scope :not_trash, lambda { where(:trashed => false) }
   scope :deleted, lambda { where(:deleted => true) }
-  scope :not_deleted, lambda { where(:deleted => false) }
+  scope :current, lambda { where(:deleted => false) }
   scope :is_read, lambda { where(:is_read => true) }
   scope :is_unread, lambda { where(:is_read => false) }
 
@@ -57,7 +57,7 @@ class Mailboxer::Receipt < ActiveRecord::Base
     end
 
     #Marks the receipt as not deleted
-    def mark_as_not_deleted(options={})
+    def mark_as_current(options={})
       update_receipts({:deleted => false}, options)
     end
 
@@ -84,7 +84,7 @@ class Mailboxer::Receipt < ActiveRecord::Base
   end
 
   #Marks the receipt as not deleted
-  def mark_as_not_deleted
+  def mark_as_current
     update_attributes(:deleted => false)
   end
 

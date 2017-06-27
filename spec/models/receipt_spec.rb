@@ -37,7 +37,7 @@ describe Mailboxer::Receipt do
 
   it "should be able to be marked as not deleted" do
     @mail1.deleted=true
-    @mail1.mark_as_not_deleted
+    @mail1.mark_as_current
     expect(@mail1.deleted).to be false
   end
 

@@ -18,10 +18,10 @@ class Mailboxer::Conversation < ActiveRecord::Base
     joins(:receipts).merge(Mailboxer::Receipt.recipient(participant)).distinct
   }
   scope :inbox, lambda {|participant|
-    participant(participant).merge(Mailboxer::Receipt.inbox.not_trash.not_deleted)
+    participant(participant).merge(Mailboxer::Receipt.inbox.not_trash.current)
   }
   scope :sentbox, lambda {|participant|
-    participant(participant).merge(Mailboxer::Receipt.sentbox.not_trash.not_deleted)
+    participant(participant).merge(Mailboxer::Receipt.sentbox.not_trash.current)
   }
   scope :trash, lambda {|participant|
     participant(participant).merge(Mailboxer::Receipt.trash)
@@ -32,8 +32,8 @@ class Mailboxer::Conversation < ActiveRecord::Base
   scope :not_trash,  lambda {|participant|
     participant(participant).merge(Mailboxer::Receipt.not_trash)
   }
-  scope :not_deleted,  lambda {|participant|
-    participant(participant).merge(Mailboxer::Receipt.not_deleted)
+  scope :current,  lambda {|participant|
+    participant(participant).merge(Mailboxer::Receipt.current)
   }
   scope :between, lambda {|participant_one, participant_two|
     joins("INNER JOIN (#{Mailboxer::Notification.recipient(participant_two).to_sql}) participant_two_notifications " \
